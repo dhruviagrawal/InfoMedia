@@ -1,37 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Home.StartActivity">
-   <RelativeLayout
+   <FrameLayout
        android:layout_width="match_parent"
-       android:layout_height="match_parent">
+       android:layout_height="match_parent"
+      android:id="@+id/fragment_container">
 
-      <RelativeLayout
-          android:id="@+id/relLayout1"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
+   </FrameLayout>
+   <com.google.android.material.appbar.AppBarLayout
 
-         <include layout="@layout/layout_top" />
-      </RelativeLayout>
-
-      <RelativeLayout
-          android:id="@+id/relLayout2"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-
-         <include layout="@layout/layout_center_viewpager" />
-      </RelativeLayout>
-
-      <RelativeLayout
-          android:id="@+id/relLayout3"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content">
-
+      android:layout_width="match_parent"
+      android:id="@+id/bottom_2"
+      android:layout_alignParentBottom="true"
+      android:layout_height="wrap_content"
+      >
          <include layout="@layout/layout_bottom" />
-      </RelativeLayout>
-   </RelativeLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout >
+   </com.google.android.material.appbar.AppBarLayout>
+</RelativeLayout>

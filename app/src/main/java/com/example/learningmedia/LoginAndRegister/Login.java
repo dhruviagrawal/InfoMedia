@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +29,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
     EditText email1, password1;
@@ -38,7 +47,11 @@ public class Login extends AppCompatActivity {
     SignInButton signInButton;
     CheckBox admin;
     String tag;
+    FirebaseUser user;
+    FirebaseFirestore firebaseFirestore;
+    Boolean checkBoxStatus;
     private final static int RC_SIGN_IN=123;
+    public static final String SHARED_PREFS ="PREFS";
 
     @Override
     protected void onStart() {
@@ -61,18 +74,47 @@ public class Login extends AppCompatActivity {
         signInButton = findViewById(R.id.googlesignin);
         admin = findViewById(R.id.checkBox);
 
+        fAuth = FirebaseAuth.getInstance();
+        user=fAuth.getCurrentUser();
+        progressBar1 = findViewById(R.id.progressBar1);
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
         //Google SignIn
         createRequest();
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 signIn();
             }
         });
+          if(user!=null){
+              DatabaseReference dbReference= FirebaseDatabase.getInstance().getReference("admin");
+              DatabaseReference databaseReference=dbReference.child("Id");
+              //check if current user is admin, if current user is admin AdminActivity will open else startActivity will open
+              databaseReference.addValueEventListener(new ValueEventListener() {
+                  @Override
+                  public void onDataChange(@NonNull DataSnapshot snapshot) {
+                      if(snapshot.hasChild(user.getUid())){
+                          Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                          startActivity(intent);
+                      }
+                      else{
+                          Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+                          startActivity(intent);
+                      }
+                  }
 
-        fAuth = FirebaseAuth.getInstance();
+                  @Override
+                  public void onCancelled(@NonNull DatabaseError error) {
 
-        progressBar1 = findViewById(R.id.progressBar1);
+                  }
+              });
+          }
+          //if the ckeckbox is checked login as admin else login as user
+          checkBoxStatus= admin.isChecked();
+          // Login is selected the check if the credential is valid or not
+         // if it is valid then further it is checked it is admin login or user login
         login1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +140,40 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Login.this, "Login Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                            final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference().child("Admin").child("Id");
+                            dbRef.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    // If checkBox status is true i.e admin checkbox is checked then user will login as admin
+                                    // then check its credibility if it is admin or not
+                                    if(checkBoxStatus){
+                                        if(snapshot.hasChild(firebaseUser.getUid())){
+                                            Toast.makeText(Login.this, "Admin Login Successfully", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                                        }
+                                        else{
+                                            Toast.makeText(Login.this, "Not an Admin", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                    else{
+                                        if(snapshot.hasChild(firebaseUser.getUid())){
+
+                                        }
+                                        else{
+                                            Toast.makeText(Login.this, "User Login Successfully", Toast.LENGTH_SHORT).show();
+                                            startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
+
+                                }
+                            });
+
+
                         }else {
                             Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -108,6 +182,8 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
+        // if register button is clicked it will redirect it to register activity
         registerhere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -150,7 +226,9 @@ public class Login extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     //Sign in success, update UI with signed-in user's information
-                    FirebaseUser user=fAuth.getCurrentUser();
+                    user=fAuth.getCurrentUser();
+                    // Once sign in is successful add user data to database
+                    addUserToDatabase(user);
                     Intent intent = new Intent(getApplicationContext(),StartActivity.class);
                     startActivity(intent);
                 }
@@ -161,4 +239,64 @@ public class Login extends AppCompatActivity {
             }
         });
     }
+
+    private void addUserToDatabase(FirebaseUser user) {
+        final GoogleSignInAccount googleSignInAccount= GoogleSignIn.getLastSignedInAccount(getApplicationContext());
+        if(googleSignInAccount!=null){
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS,MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("emailId",googleSignInAccount.getEmail());
+            editor.commit();
+            final  DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("Users");
+            final boolean[] val = {true};
+            dbReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(!snapshot.hasChild(user.getUid()))
+                    {
+                        val[0] =false;
+                        final HashMap<Object,String>hashMap = new HashMap<>();
+                        hashMap.put("Name",googleSignInAccount.getDisplayName());
+                        hashMap.put("Id",user.getUid());
+                        hashMap.put("email",googleSignInAccount.getEmail());
+                        hashMap.put("phone"," ");
+                        hashMap.put("imageurl"," ");
+                        hashMap.put("bio"," ");
+                        dbReference.child(user.getUid()).setValue(hashMap);
+                        String email = googleSignInAccount.getEmail();
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                        final FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+
+                        int len=email.length()-4;
+                        final String userName = email.substring(0,len);
+
+                        final DatabaseReference sharedPrefs = firebaseDatabase.getReference().child("Users").child(userName);
+                        DatabaseReference interestRef = firebaseDatabase.getReference().child("Admin").child("Interest");
+                        interestRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for(DataSnapshot i:snapshot.getChildren()){
+                                    sharedPrefs.child(i.getKey()).setValue("0");
+                                }
+                                startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    } else if(val[0]==true){
+                        startActivity(new Intent(getApplicationContext(), StartActivity.class));
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
+    }
+
 }

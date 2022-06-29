@@ -14,27 +14,20 @@
         <activity
             android:name=".LoginAndRegister.Login"
             android:exported="true"
-            android:parentActivityName=".LoginAndRegister.Register">
-
-
-        </activity>
+            android:parentActivityName=".LoginAndRegister.Register"></activity>
         <activity
             android:name=".LoginAndRegister.Register"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Home.StartActivity"
             android:exported="true"
-            android:parentActivityName=".LoginAndRegister.Login">
-        </activity>
-        <activity android:name=".Home.Profile"/>
-        <activity android:name=".Home.User"/>
-        <activity android:name=".Home.Upload"/>
+            android:parentActivityName=".LoginAndRegister.Login"></activity>
     </application>
 
 </manifest>
