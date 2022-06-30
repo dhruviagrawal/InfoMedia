@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_close.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_home.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_profile.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_search.xml" value="0.26458333333333334" />
@@ -15,6 +16,7 @@
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_profile.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_register.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_register2.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_upload.xml" value="0.115625" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_user.xml" value="0.152" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_home.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_profile.xml" value="0.23645833333333333" />
