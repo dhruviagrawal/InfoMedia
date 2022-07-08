@@ -12,6 +12,7 @@ import com.example.learningmedia.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
+
 public class StartActivity extends AppCompatActivity {
     public static final String TAG = "StartActivity";
     //Context
@@ -31,35 +32,35 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         //BottomNavigation();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-       // bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);
+        // bottomNavigationView.setOnNavigationItemSelectedListener(selectedListener);
 
 
         bottomNavigationView.setOnItemSelectedListener(item-> {
-          //  public boolean onNavigationItemReselected (MenuItem item){
-                switch (item.getItemId()) {
-                    //declare all the icons of bottom navigation bar
-                    case R.id.ic_house:
-                        selectFragment[0] = new HomeFragment();
-                        break;
-                    case R.id.ic_profile:
-                       // selectFragment[0] = new ProfileFragment();
-                        SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE).edit();
-                        editor.putString("profilefield", FirebaseAuth.getInstance().getCurrentUser().getUid());
-                        editor.apply();
-                        selectFragment[0] = new ProfileFragment();
-                        break;
-                    case R.id.ic_user:
-                        selectFragment[0] = new UserFragment();
-                        break;
-                    case R.id.ic_upload:
-                        selectFragment[0]=null;
-                        startActivity(new Intent(StartActivity.this, UploadActivity.class));
-                        break;
-                }
-                if (selectFragment[0] != null) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectFragment[0]).commit();
-                }
-                //return true;
+            //  public boolean onNavigationItemReselected (MenuItem item){
+            switch (item.getItemId()) {
+                //  declare all the icons of bottom navigation bar
+                case R.id.ic_house:
+                    selectFragment[0] = new Fragment();
+                    break;
+                case R.id.ic_profile:
+                    // selectFragment[0] = new ProfileFragment();
+                    SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE).edit();
+                    editor.putString("profilefield", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    editor.apply();
+                    selectFragment[0] = new ProfileFragment();
+                    break;
+                case R.id.ic_user:
+                    selectFragment[0] = new UserFragment();
+                    break;
+                case R.id.ic_upload:
+                    selectFragment[0]=null;
+                    startActivity(new Intent(StartActivity.this, UploadActivity.class));
+                    break;
+            }
+            if (selectFragment[0] != null) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectFragment[0]).commit();
+            }
+            //return true;
             //}
             return true;
         } );
