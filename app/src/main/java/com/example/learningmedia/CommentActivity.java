@@ -122,11 +122,13 @@ public class CommentActivity extends AppCompatActivity {
 
     private void CommentAdded() {
         HashMap<String,Object> map = new HashMap<>();
-        map.put("comment",addComment.getText().toString());
-        map.put("publisher",firebaseUser.getUid());
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Comments").child(postId);
         String id = databaseReference.push().getKey();
         map.put("id",id);
+        map.put("comment",addComment.getText().toString());
+        map.put("publisher",firebaseUser.getUid());
+
         addComment.setText("");
       databaseReference.child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_bookmark.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_bookmark_black.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_close.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_comment.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_home.xml" value="0.2526041666666667" />
@@ -11,6 +12,8 @@
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_like.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_liked.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_logo.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_options.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_picture.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_profile.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_search.xml" value="0.26458333333333334" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_upload.xml" value="0.2526041666666667" />
@@ -18,7 +21,10 @@
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/drawable-anydpi/ic_users.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/acitivity_upload.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_comment.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_edit_profile.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_followers.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_login.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_logout.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_main.xml" value="0.22239583333333332" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_profile.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_register.xml" value="0.23645833333333333" />
@@ -27,13 +33,15 @@
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/activity_user.xml" value="0.152" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/comment_item.xml" value="0.176" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_home.xml" value="0.23645833333333333" />
-        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_profile.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_post_details.xml" value="0.16" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_profile.xml" value="0.264" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_upload.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/fragment_user.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/home_fragment.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/layout_bottom.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/layout_center_viewpager.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/layout_top.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/photo_item.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/post_item.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/layout/user_item.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/anushka/AndroidStudioProjects/LearningMedia/app/src/main/res/menu/bottom_nav_menu.xml" value="0.23645833333333333" />

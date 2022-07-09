@@ -16,6 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.learningmedia.CommentActivity;
+import com.example.learningmedia.FollowersActivity;
+import com.example.learningmedia.Home.PostDetailsFragment;
+import com.example.learningmedia.Home.ProfileFragment;
 import com.example.learningmedia.R;
 import com.example.learningmedia.Util.ModelUser;
 import com.example.learningmedia.Util.Post;
@@ -36,6 +39,8 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.ViewHolder>{
     public Context mContext;
     private List<Post> mPost;
     private FirebaseUser firebaseUser;
+
+    public static final String SHARED_PREFS = "sharedPrefs";
 
     public PostAdapter(Context mContext, List<Post> mPosts) {
         this.mContext = mContext;
@@ -88,6 +93,7 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.ViewHolder>{
         Liked(post.getPostid(),holder.like);
         countLikes(post.getPostid(),holder.likes);
         getComments(post.getPostid(),holder.comments);
+        bookmarked(post.getPostid(),holder.bookmark);
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +125,67 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.ViewHolder>{
                 mContext.startActivity(intent);
             }
         });
+        holder.bookmark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(holder.bookmark.getTag().equals("bookmark")){
+                    FirebaseDatabase.getInstance().getReference().child("Bookmark").
+                            child(firebaseUser.getUid()).child(post.getPostid()).setValue(true);
+                }
+                else{
+                    FirebaseDatabase.getInstance().getReference().child("Bookmark").
+                            child(firebaseUser.getUid()).child(post.getPostid()).removeValue();
+                }
+            }
+        });
+        holder.image_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).
+                        edit().putString("profileid",post.getPublisher()).apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().
+                        replace(R.id.fragment_container,new ProfileFragment()).commit();
+            }
+        });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).
+                        edit().putString("profileid",post.getPublisher()).apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().
+                        replace(R.id.fragment_container,new ProfileFragment()).commit();
+            }
+        });
+        holder.publisher.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).
+                        edit().putString("profileid",post.getPublisher()).apply();
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().
+                        replace(R.id.fragment_container,new ProfileFragment()).commit();
+            }
+        });
+        holder.post_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.getSharedPreferences(SHARED_PREFS,Context.MODE_PRIVATE).edit().putString("postid",post.getPostid()).apply();
+
+                ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().
+                        replace(R.id.fragment_container,new PostDetailsFragment()).commit();
+            }
+        });
+        holder.likes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, FollowersActivity.class);
+                intent.putExtra("id",post.getPublisher());
+                intent.putExtra("title","likes");
+                mContext.startActivity(intent);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -144,6 +210,27 @@ public class PostAdapter extends  RecyclerView.Adapter<PostAdapter.ViewHolder>{
             description = itemView.findViewById(R.id.description);
             publisher = itemView.findViewById(R.id.publisher);
         }
+    }
+    private void bookmarked(String postid, ImageView bookmark) {
+        FirebaseDatabase.getInstance().getReference().child("Bookmark").child(FirebaseAuth.getInstance().
+                getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child(postid).exists()){
+                    bookmark.setImageResource(R.drawable.ic_bookmark_black);
+                    bookmark.setTag("bookmarked");
+                }
+                else{
+                    bookmark.setImageResource(R.drawable.ic_bookmark);
+                    bookmark.setTag("bookmark");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
     private void Liked(String postId,ImageView imageView){
         FirebaseDatabase.getInstance().getReference().child("Likes").child(postId).addValueEventListener(new ValueEventListener() {

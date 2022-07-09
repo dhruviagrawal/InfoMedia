@@ -60,7 +60,7 @@ public class UserFragment extends Fragment {
         recyclerView.setLayoutManager(manager);
         search_bar = view.findViewById(R.id.search_bar);
         modelUsers = new ArrayList<>();
-        userAdapter = new UserAdapter(getContext(),modelUsers);
+        userAdapter = new UserAdapter(getContext(),modelUsers,true);
         recyclerView.setAdapter(userAdapter);
         firstUsers();
         //readUsers();
@@ -130,7 +130,7 @@ public class UserFragment extends Fragment {
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getActivity(),modelUsers);
+                userAdapter = new UserAdapter(getActivity(),modelUsers,true);
                 userAdapter.notifyDataSetChanged();
                 recyclerView.setAdapter(userAdapter);
             }
@@ -156,7 +156,7 @@ public class UserFragment extends Fragment {
                         modelUsers.add(user);
                     }
                 }
-                userAdapter = new UserAdapter(getActivity(),modelUsers);
+                userAdapter = new UserAdapter(getActivity(),modelUsers,true);
                 recyclerView.setAdapter(userAdapter);
                 recyclerView.setVisibility(View.VISIBLE);
             }

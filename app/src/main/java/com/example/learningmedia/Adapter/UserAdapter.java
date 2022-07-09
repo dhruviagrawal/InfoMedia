@@ -1,6 +1,7 @@
 package com.example.learningmedia.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,10 +12,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.learningmedia.Home.ProfileFragment;
+import com.example.learningmedia.Home.StartActivity;
 import com.example.learningmedia.R;
 import com.example.learningmedia.Util.ModelUser;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,11 +37,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     private Context mContext;
     private List<ModelUser> mUser;
     public static final String SHARED_PREFS = "PREFS";
-    FirebaseUser firebaseUser;
+    private FirebaseUser firebaseUser;
+    private boolean isFragment;
 
-    public UserAdapter(Context mContext, List<ModelUser> mUser) {
+    public UserAdapter(Context mContext, List<ModelUser> mUser, boolean isFragment) {
         this.mContext = mContext;
         this.mUser = mUser;
+        this.isFragment = isFragment;
     }
 
     @NonNull
@@ -59,7 +64,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
       final ModelUser user= mUser.get(position);
       holder.button_follow.setVisibility(View.VISIBLE);
       holder.fullname.setText(user.getName());
-      holder.emailid.setText(user.getEmail());
+      holder.emailid.setText(user.getName());
         Glide.with(mContext).load(user.getImageurl()).into(holder.image_profile);
 
         isFollowing(user.getId(),holder.button_follow);
@@ -68,7 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             holder.button_follow.setVisibility(View.GONE);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+      /*  holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -83,6 +88,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                 ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
             }
         });
+        */
         holder.button_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +103,23 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                             .child("following").child(user.getId()).removeValue();
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId())
                             .child("followers").child(firebaseUser.getUid()).removeValue();
+                }
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isFragment){
+                  mContext.getSharedPreferences("PROFILE",Context.MODE_PRIVATE).edit().putString("profileId",user.getId()).apply();
+                    ((FragmentActivity)mContext).getSupportFragmentManager().beginTransaction().
+                            replace(R.id.fragment_container,new ProfileFragment()).commit();
+
+                }
+                else{
+                    Intent intent = new Intent(mContext, StartActivity.class);
+                    intent.putExtra("publisherId",user.getId());
+                    mContext.startActivity(intent);
                 }
             }
         });
